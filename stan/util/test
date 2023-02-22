@@ -1,0 +1,20 @@
+
+fun cor1(x,y,W):
+
+
+    n_spots=W.shape[0]
+
+    dx=x.shape[1]
+    dy=y.shape[1]
+
+
+    x_centered=x-np.mean(x, axis=0)
+    y_centered=y-np.mean(y, axis=0)
+
+    x_norm=np.sqrt(np.sum(x_centered**2, axis=0))
+    y_norm=np.sqrt(np.sum(x_centered**2, axis=0))
+
+    cor=np.zeros((dx,dy))
+    for xi in range(dx):
+        for yi in range(dy):
+            cor[xi,yi]=np.sum(x_centered[W[:,0],xi]*y_centered[W[:,1],yi])*n_spots/(2*len(W))/(x_norm*y_norm)
