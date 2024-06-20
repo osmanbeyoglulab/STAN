@@ -1,4 +1,4 @@
-setwd("~/Desktop/Pitt/Project_sagan_stan/Code_Linan/April/notebooks/breast")
+setwd("~/Desktop/STAN_project/notebooks/breast")
 library(ggplot2)
 library(ggrepel)
 library(Seurat)
