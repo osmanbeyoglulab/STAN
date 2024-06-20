@@ -1,0 +1,10 @@
+anndata
+matplotlib
+numpy
+pandas
+Pillow
+scanpy
+scipy
+seaborn
+sklearn
+statsmodels
