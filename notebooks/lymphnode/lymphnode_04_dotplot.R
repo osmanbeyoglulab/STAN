@@ -1,4 +1,4 @@
-setwd("~/Desktop/Pitt/Project_sagan_stan/Code_Linan/April/notebooks/lymphnode")
+setwd("~/Desktop/STAN_Project/notebooks/lymphnode")
 library(ggplot2)
 library(ggrepel)
 library(Seurat)
