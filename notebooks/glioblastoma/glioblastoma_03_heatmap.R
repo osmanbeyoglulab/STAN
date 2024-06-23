@@ -1,4 +1,4 @@
-setwd("~/Desktop/Pitt/Project_sagan_stan/Code_Linan/April/notebooks/glioblastoma")
+setwd("~/Desktop/STAN_project/notebooks/glioblastoma")
 library(dplyr)
 library(tidyr)
 library(tibble)
