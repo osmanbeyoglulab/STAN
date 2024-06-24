@@ -7,4 +7,5 @@ scanpy
 scipy
 seaborn
 sklearn
+squidpy
 statsmodels
