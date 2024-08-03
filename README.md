@@ -10,5 +10,10 @@ In this repository, three example are provided to demenstrate the applicability 
 
 ![image](https://github.com/osmanbeyoglulab/Tutorials-on-ISMB-2024/blob/main/hands-on_tutorial/session-1/resources_stan/stan.png?raw=true)
 
+## Supporting resources
+A gene set resource comprising TF–target gene priors from [hTFtarget](https://guolab.wchscu.cn/hTFtarget/#!/) will be obtained, and TFs identified in the Human Transcription Factor database [(humantfs)](https://www.cell.com/cell/fulltext/S0092-8674(18)30106-5) will be retained to generate the TF–target gene prior matrix. 
+
 ## Citation
-Zhang, L., Sagan, A., Qin, B., Hu, B., & Osmanbeyoglu, H. U. (2024). STAN, a computational framework for inferring spatially informed transcription factor activity across cellular contexts. _bioRxiv_, bioRxiv (2024): 2024.06.26.600782. doi: <https://doi.org/10.1101/2024.06.26.600782>.
+Zhang, L., Sagan, A., Qin, B., Hu, B., & Osmanbeyoglu, H. U. (2024). STAN, a computational framework for inferring spatially informed transcription factor activity across cellular contexts. _bioRxiv_, bioRxiv (2024): 2024.06.26.600782. 
+
+doi: <https://doi.org/10.1101/2024.06.26.600782>
