@@ -1,0 +1,55 @@
+Optimal parameters:
+
+CytAssist_FFPE_Protein_Expression_Human_Tonsil
+Time elapsed: 31.76 seconds
+{'lam1': 1000.0, 'lam2': 0.001}
+Spot-wise correlation:0.3161
+Gene-wise correlation: 0.1154
+
+CytAssist_FFPE_Protein_Expression_Human_Tonsil_AddOns
+Time elapsed: 37.32 seconds
+{'lam1': 1000.0, 'lam2': 1000.0}
+Spot-wise correlation:0.34
+Gene-wise correlation: 0.1697
+
+CytAssist_FFPE_Protein_Expression_Human_Breast_Cancer
+Time elapsed: 27.82 seconds
+{'lam1': 1000.0, 'lam2': 0.001}
+Spot-wise correlation:0.1988
+Gene-wise correlation: 0.1716
+
+Wu 1142243F
+Time elapsed: 24.37 seconds
+{'lam1': 1000.0, 'lam2': 1000.0}
+Spot-wise correlation:0.2199
+Gene-wise correlation: 0.116
+
+Wu 1160920F
+Time elapsed: 27.31 seconds
+{'lam1': 1000.0, 'lam2': 10.0}
+Spot-wise correlation:0.223
+Gene-wise correlation: 0.1575
+
+Wu CID4290
+Time elapsed: 12.51 seconds
+{'lam1': 1000.0, 'lam2': 10.0}
+Spot-wise correlation:0.2531
+Gene-wise correlation: 0.1728
+
+Wu CID4535
+Time elapsed: 7.14 seconds
+{'lam1': 1000.0, 'lam2': 10.0}
+Spot-wise correlation:0.2937
+Gene-wise correlation: 0.1514
+
+Wu CID4465
+Time elapsed: 7.99 seconds
+{'lam1': 1000.0, 'lam2': 1000.0}
+Spot-wise correlation:0.2378
+Gene-wise correlation: 0.1563
+
+Wu CID44971
+Time elapsed: 7.19 seconds
+{'lam1': 1000.0, 'lam2': 0.001}
+Spot-wise correlation:0.2834
+Gene-wise correlation: 0.1897
