@@ -88,6 +88,7 @@ defusedxml                0.7.1              pyhd8ed1ab_0    conda-forge
 distributed               2024.11.2                pypi_0    pypi
 docrep                    0.3.2              pyh44b312d_0    conda-forge
 entrypoints               0.4                      pypi_0    pypi
+et-xmlfile                2.0.0                    pypi_0    pypi
 exceptiongroup            1.2.2              pyhd8ed1ab_1    conda-forge
 executing                 2.0.1                    pypi_0    pypi
 expat                     2.5.0                h313beb8_0  
@@ -277,6 +278,7 @@ ome-zarr                  0.10.3                   pypi_0    pypi
 omnipath                  1.0.7              pyhd8ed1ab_0    conda-forge
 opencv-python             4.11.0.86                pypi_0    pypi
 openjpeg                  2.5.0                hbc2ba62_2    conda-forge
+openpyxl                  3.1.5                    pypi_0    pypi
 openssl                   3.5.0                h81ee809_0    conda-forge
 opt-einsum                3.4.0                    pypi_0    pypi
 optree                    0.14.1                   pypi_0    pypi
