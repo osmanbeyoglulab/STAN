@@ -1,5 +1,4 @@
 from .bigan import *
-from .benchmark import *
 from .ctran import *
 from .downstream import *
 from .feature_extraction import *
