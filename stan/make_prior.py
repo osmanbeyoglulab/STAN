@@ -77,28 +77,66 @@ def make_gene_tf_matrix(source="hTFtarget",
                         min_tfs_per_gene=10,
                         min_genes_per_tf=10,
                         source_dir: str = "data/gene_tf/"):
+    """
+    Constructs a gene-TF (Transcription Factor) adjacency matrix from specified sources.
+    
+    Parameters:
+    -----------
+    source : str or pd.DataFrame, optional (default="hTFtarget")
+        Either a pre-loaded DataFrame or a string specifying which database to load.
+    tf_list : str or list, optional (default="humantfs")
+        Either "humantfs" to load a predefined list or a custom list of TFs to include.
+    gene_universe : list, optional
+        List of genes to include in the matrix (None includes all).
+    tf_universe : list, optional
+        List of TFs to include in the matrix (None includes all).
+    min_tfs_per_gene : int, optional (default=10)
+        Minimum number of TFs required per gene (genes with fewer will be dropped).
+    min_genes_per_tf : int, optional (default=10)
+        Minimum number of genes required per TF (TFs with fewer will be dropped).
+    source_dir : str, optional (default="data/gene_tf/")
+        Directory where source files are stored.
+        
+    Returns:
+    --------
+    pd.DataFrame
+        A gene-TF adjacency matrix where rows are genes and columns are TFs.
+        Values are binary (0/1) indicating presence/absence of regulation.
+    """
+    
+    # Load or use provided gene-TF interaction data
+    if type(source) == pd.DataFrame:
+        gene_tf = source  # Use directly if DataFrame is provided
+    elif source == "hTFtarget":
+        gene_tf = load_hTFtarget(source_dir=source_dir)  # Load from default source
 
-    if type(source)== pd.DataFrame:
-        gene_tf=source
-    elif source=="hTFtarget":
-        gene_tf=load_hTFtarget(source_dir=source_dir)
-
-    if tf_list=="humantfs":
-        tf_list=load_humantfs(source_dir=source_dir)
+    # Load or use provided TF list
+    if tf_list == "humantfs":
+        tf_list = load_humantfs(source_dir=source_dir)  # Load default TF list
     if tf_list is not None:
-        gene_tf=gene_tf.query("TF in @tf_list")
+        gene_tf = gene_tf.query("TF in @tf_list")  # Filter to only include specified TFs
 
+    # Apply universe filters if provided
     if tf_universe is not None:
-        gene_tf=gene_tf.query("TF in @tf_universe") #just say >0
+        gene_tf = gene_tf.query("TF in @tf_universe")  # Filter TFs by universe
     if gene_universe is not None:
-        gene_tf=gene_tf.query("gene in @gene_universe")
+        gene_tf = gene_tf.query("gene in @gene_universe")  # Filter genes by universe
 
-    gene_tf['values'] = 1
-    gene_tf = gene_tf.pivot_table(index='gene', columns='TF', aggfunc='mean', values='values',fill_value=0)
+    # Create binary adjacency matrix
+    gene_tf['values'] = 1  # Add column of 1s for pivot table
+    # Pivot to create gene-TF matrix (genes as rows, TFs as columns)
+    gene_tf = gene_tf.pivot_table(index='gene', columns='TF', 
+                                aggfunc='mean', values='values',
+                                fill_value=0)
 
-    # linan's version
-    gene_sum = gene_tf.T.sum()
-    gene_tf.drop(gene_tf.index[gene_sum<min_tfs_per_gene], axis=0,inplace=True)
-    tf_sum = gene_tf.sum()
-    gene_tf.drop(gene_tf.columns[tf_sum<min_genes_per_tf], axis=1,inplace=True)
+    # Filter genes with too few TFs
+    gene_sum = gene_tf.T.sum()  # Count TFs per gene
+    gene_tf.drop(gene_tf.index[gene_sum < min_tfs_per_gene], 
+                axis=0, inplace=True)  # Drop sparse genes
+
+    # Filter TFs with too few genes
+    tf_sum = gene_tf.sum()  # Count genes per TF
+    gene_tf.drop(gene_tf.columns[tf_sum < min_genes_per_tf], 
+                axis=1, inplace=True)  # Drop sparse TFs
+
     return gene_tf

@@ -257,13 +257,9 @@ def BiGAN_train(train_data_loader, patch_size, is_save = 'False', path = '',samp
     return encoder
 
 def BiGAN_encode(test_data_loader,encoder):
-
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
     load_encoder = encoder
-
     load_encoder.eval()
-    
     results = []
     os.makedirs('encode_results', exist_ok=True)
     
@@ -275,27 +271,7 @@ def BiGAN_encode(test_data_loader,encoder):
             
             z_fake = encoder(center_crop)
             results.append(z_fake.cpu())
-            
-            # # x_fake = generator(z_fake).cpu()
-            
-            # # recon_loss, to check the result
-            # reconstruction_loss = reconstruction_loss_function(x_fake, batch.cpu())
-            # print(f'Test Batch [{batch_idx}], Reconstruction Loss: {reconstruction_loss.item():.4f}')
-    
-            # real_images = batch.cpu()
-            # fake_images = x_fake
-      
-            # real_grid = vutils.make_grid(real_images, nrow=8, normalize=True, padding=2)
-            # fake_grid = vutils.make_grid(fake_images, nrow=8, normalize=True, padding=2)
-            
-            # combined_grid = torch.cat((real_grid, fake_grid), dim=1)  # dim=1 
-    
-            # vutils.save_image(combined_grid, f'encode_results/test_real_fake_batch_{batch_idx}.png')
-            
-            # print(f'Encode Batch [{batch_idx}] processed.')
     
     print("Encoding Completed.")
     return torch.cat(results, dim=0).detach().cpu().numpy()
-        
-        
-        
+       

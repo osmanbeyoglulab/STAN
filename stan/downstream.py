@@ -17,30 +17,104 @@ dpi = 150
 
 
 def t_stat(adata, r_key):
+    """
+    Calculates t-statistics from correlation coefficients stored in AnnData object.
+    
+    Converts correlation values (r) to t-statistics using the formula:
+    t = r * sqrt((n-2)/(1-r²))
+    
+    Args:
+        adata (AnnData): Annotated data object containing:
+            - varm['gene_tf']: Gene-TF interaction matrix (features x TFs)
+            - obsm[r_key]: Correlation coefficients matrix (spots x TFs)
+        r_key (str): Key in adata.obsm containing correlation coefficients
+    
+    Returns:
+        numpy.ndarray: Matrix of t-statistics with same shape as input correlations
+    """
+    
+    # Get gene-TF interaction matrix (features x transcription factors)
     A = adata.varm['gene_tf']
+    
+    # Get expression matrix transposed (genes x spots)
     b = adata.to_df().T
+    
+    # Extract correlation coefficients (spots x TFs)
     r = adata.obsm[r_key]
-    n_samples = b.shape[1]
-    n_features, n_fsets = A.shape
-    df = n_features - 2
-    x = r * np.sqrt(df / ((1.0 - r + 1.0e-16)*(1.0 + r + 1.0e-16)))
+    
+    # Calculate degrees of freedom (n_features - 2)
+    # Where n_features = number of genes (from gene-TF matrix)
+    n_samples = b.shape[1]    # Number of spots
+    n_features, n_fsets = A.shape  # Genes x TFs dimensions
+    df = n_features - 2       # Degrees of freedom for t-test
+    
+    # Convert correlations to t-statistics:
+    # t = r * sqrt(df / (1 - r²))
+    # Added small epsilon (1e-16) for numerical stability near r=±1
+    x = r * np.sqrt(df / ((1.0 - r + 1.0e-16) * (1.0 + r + 1.0e-16)))
+    
     return x
 
 
 def annotate_lymphnode(adata, fpath="resources/lymphnode_annotation"):
+    """
+    Annotates lymph node spatial transcriptomics data with cell type proportions 
+    and germinal center (GC) identification.
+    
+    Args:
+        adata (AnnData): Spatial transcriptomics data object
+        fpath (str): Path to directory containing annotation files
+        
+    Returns:
+        AnnData: Modified AnnData object with added annotations:
+            - obsm['celltype']: Normalized cell type proportions
+            - obsm['celltype_raw']: Raw cell type densities
+            - obs['germinal_center']: GC classification ("GC" or "Other")
+    """
+    
+    # 1. Load Annotation Files
+    # -----------------------
+    # Read cell type density estimates (spot x cell type matrix)
     celltypes = pd.read_csv(Path(fpath) / "W_cell_density.csv", index_col=0)
-    gc_annotation = pd.read_csv(Path(fpath) / "manual_GC_annot.csv", index_col=0).fillna(0).replace("GC", 1)
+    # Read manual germinal center annotations (binary: 1=GC, 0=non-GC)
+    gc_annotation = pd.read_csv(Path(fpath) / "manual_GC_annot.csv", 
+                              index_col=0).fillna(0).replace("GC", 1)
 
+    # 2. Align Data with Annotations
+    # -----------------------------
+    # Find overlapping spots between data and annotations
     obs_names = np.intersect1d(celltypes.index, adata.obs_names)
+    # Subset both objects to matching spots only
     adata = adata[obs_names]
     celltypes = celltypes.loc[obs_names]
     gc_annotation = gc_annotation.loc[obs_names]
+
+    # 3. Store Cell Type Information
+    # ----------------------------
+    # Add raw cell type densities to obsm
     adata.obsm['celltype'] = celltypes
-    adata.obsm['celltype'].columns = [x.replace('mean_spot_factors','') for x in adata.obsm['celltype'].columns]
+    # Clean up column names by removing prefix
+    adata.obsm['celltype'].columns = [
+        x.replace('mean_spot_factors','') 
+        for x in adata.obsm['celltype'].columns
+    ]
+    # Create backup of raw values before normalization
     adata.obsm['celltype_raw'] = adata.obsm['celltype'].copy()
-    adata.obsm['celltype'] = adata.obsm['celltype'].divide(adata.obsm['celltype'].sum(axis=1), axis=0)
+    # Normalize to proportions (sum to 1 per spot)
+    adata.obsm['celltype'] = adata.obsm['celltype'].divide(
+        adata.obsm['celltype'].sum(axis=1), 
+        axis=0
+    )
+
+    # 4. Add Germinal Center Annotations
+    # --------------------------------
+    # Store binary GC annotations
     adata.obs['germinal_center'] = gc_annotation
-    adata.obs['germinal_center'] = adata.obs['germinal_center'].map({0: "Other", 1: "GC"})
+    # Convert numeric labels to descriptive strings
+    adata.obs['germinal_center'] = adata.obs['germinal_center'].map(
+        {0: "Other", 1: "GC"}
+    )
+
     return adata
 
 
@@ -88,6 +162,21 @@ def get_activity(adata, key='tfa_stan'):
 
 
 def compute_spatial_expression(adata, genes):
+    """
+    Compute spatially weighted expression profiles for given genes.
+    
+    Parameters:
+    -----------
+    adata : AnnData
+        Annotated data matrix containing spatial gene expression data
+    genes : list
+        List of gene names to compute spatial expression for
+        
+    Returns:
+    --------
+    pd.DataFrame
+        DataFrame containing spatially smoothed expression values for the specified genes
+    """
     sq.gr.spatial_neighbors(adata, n_rings=1)
     A = adata.obsp['spatial_connectivities']
     mat = sc.get.obs_df(adata, genes)
@@ -99,6 +188,21 @@ def compute_spatial_expression(adata, genes):
 
 
 def compute_ari(adata, cluster_1, cluster_2):
+     """
+    Compute the Adjusted Rand Index (ARI) between two clustering results.
+
+    Parameters:
+    -----------
+    adata : AnnData
+        Annotated data matrix containing cluster labels
+    cluster_1/cluster_2 : str
+        Column name in adata.obs for the first/secent clustering result
+        
+    Returns:
+    --------
+    float
+        Adjusted Rand Index score between the two clusterings
+    """
     label_1 = np.array(adata.obs[cluster_1]).reshape(-1,1)
     sklearn_encoder = OrdinalEncoder()
     encoder_1 = sklearn_encoder.fit_transform(label_1)
@@ -151,39 +255,3 @@ def plot_spatial_expression(adata, genes, points, edges):
         for ii, jj in edges:
             axs[i].plot(points[[ii, jj], 0], points[[ii, jj], 1], 'w', linewidth=0.8)
     plt.tight_layout(pad=0.6)
-
-
-# def make_subtype_activity_df(adata_list, subtype, act='TF'):
-#     dfs_tf = dict()
-#     for sample in adata_list.keys():
-#         adata = adata_list[sample]
-#         if subtype in adata.obs.columns:
-#             categories = adata.obs[subtype].cat.categories
-#             mean_df = adata.to_df().groupby(adata.obs[subtype]).mean()
-#             df = []
-#             for i in range(len(adata.uns['rank_genes_groups']['names'])):
-#                 for j, cat in enumerate(categories):
-#                     tf = adata.uns['rank_genes_groups']['names'][i][j]
-#                     pval = adata.uns['rank_genes_groups']['pvals_adj'][i][j]
-#                     mean = mean_df.loc[cat, tf]
-#                     df.append([sample, tf, cat, mean, -np.log10(pval+1e-10), i])
-
-#             dfs_tf[sample] = pd.DataFrame(df, columns=['sample', act, 'subtype', act+'a', '-log(p_adj)', 'rank'])
-#             dfs_tf[sample]['abs_{}a'.format(act)] = dfs_tf[sample][act+'a'].abs()
-
-#     dfs_tf_diff = dict()
-#     for sample in dfs_tf.keys():
-#         adata = adata_list[sample]
-#         df = dfs_tf[sample]
-#         df['diff'] = 0
-#         mat = adata.to_df()
-#         for i in df.index:
-#             tf = df[act][i]
-#             pat = df['subtype'][i]
-#             x = mat.loc[adata.obs[subtype]==pat, tf].mean(numeric_only=True)
-#             y = mat.loc[adata.obs[subtype]!=pat, tf].mean(numeric_only=True)
-#             df['diff'][i] = x-y
-#         dfs_tf_diff[sample] = df
-        
-#     df_tf_diff = pd.concat(dfs_tf_diff, ignore_index=True)
-#     return df_tf_diff
