@@ -12,11 +12,10 @@ STAN (Spatially informed Transcription factor Activity Network) is a linear mixe
 - `notebook05_run_image.ipynb` and `notebook05_analysis_image.ipynb`: to analyze the impact of including morphological features
  
 ## Applications of STAN
-
-1. Identifying germinal centers and cell-type-specific TFs in the human lymph node: `analysis_lymphnode.ipynb`
-3. Identifying similar/different TFs associated with pathological regions in breast cancer: `analysis_breast_part1.ipynb` (a series notebooks)
-4. Linking ligands and receptors to TFs in glioblastoma: `analysis_glioblastoma.ipynb`
-5. Linking surface proteins to TFs in CytAssist datasets: `analysis_cytassist.ipynb`
+- Identifying germinal centers and cell-type-specific TFs in the human lymph node: `analysis_lymphnode.ipynb`
+- Identifying similar/different TFs associated with pathological regions in breast cancer: `analysis_breast_part1.ipynb` (a series notebooks)
+- Linking ligands and receptors to TFs in glioblastoma: `analysis_glioblastoma.ipynb`
+- Linking surface proteins to TFs in CytAssist datasets: `analysis_cytassist.ipynb`
 
 ![image](https://github.com/osmanbeyoglulab/Tutorials-on-ISMB-2024/blob/main/hands-on_tutorial/session-1/resources_stan/stan.png?raw=true)
 
