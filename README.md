@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/ee178800-59f9-4aa4-a4cf-64bf337be707)# STAN, a computational framework for inferring spatially informed transcription factor activity across cellular contexts
+# STAN, a computational framework for inferring spatially informed transcription factor activity across cellular contexts
 
 STAN (Spatially informed Transcription factor Activity Network) is a linear mixed-effects computational method that predicts spot-specific, spatially informed TF activities by integrating curated TF-target gene priors, mRNA expression, spatial coordinates, and morphological features from corresponding imaging data. 
 
