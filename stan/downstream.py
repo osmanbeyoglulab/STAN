@@ -188,7 +188,7 @@ def compute_spatial_expression(adata, genes):
 
 
 def compute_ari(adata, cluster_1, cluster_2):
-     """
+    """
     Compute the Adjusted Rand Index (ARI) between two clustering results.
 
     Parameters:
