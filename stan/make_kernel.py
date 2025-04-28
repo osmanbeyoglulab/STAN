@@ -109,7 +109,7 @@ def make_kernel(adata, X, n=100, kernel_name='kernel'):
     """
     Xn = recenter(X)
     adata.obsp[kernel_name] = rbf_kernel(Xn)
-   while n>Xn.shape[0]:
+    while n>Xn.shape[0]:
         n -= 50
     u,s,v = svds(adata.obsp[kernel_name], n)
     adata.obsm[kernel_name] = u.dot(np.diag(s))
