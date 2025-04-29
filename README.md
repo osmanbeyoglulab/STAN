@@ -2,6 +2,19 @@
 
 STAN (Spatially informed Transcription factor Activity Network) is a linear mixed-effects computational method that predicts spot-specific, spatially informed TF activities by integrating curated TF-target gene priors, mRNA expression, spatial coordinates, and morphological features from corresponding imaging data. 
 
+## Acquiring datasets:
+Visium Spatial Gene Expression datasets:
+- [10x Genomics lymph node](https://www.10xgenomics.com/datasets/human-lymph-node-1-standard-1-1-0)
+- [10x Genomics glioblastoma](https://www.10xgenomics.com/datasets/human-glioblastoma-whole-transcriptome-analysis-1-standard-1-2-0)
+- [Ravi et al. glioblastoma](https://doi.org/10.5061/dryad.h70rxwdmj)
+- [Wu et al. breast cancer](https://zenodo.org/record/4739739)
+Visium CytAssist Spatial Gene and Protein Expression datasets:
+- [Tonsil](https://www.10xgenomics.com/datasets/gene-protein-expression-library-of-human-tonsil-cytassist-ffpe-2-standard)
+- [Tensil (with addons)](https://www.10xgenomics.com/datasets/visium-cytassist-gene-and-protein-expression-library-of-human-tonsil-with-add-on-antibodies-h-e-6-5-mm-ffpe-2-standard)
+- [Breast cancer](https://www.10xgenomics.com/datasets/fresh-frozen-visium-on-cytassist-human-breast-cancer-probe-based-whole-transcriptome-profiling-2-standard)
+scRNA-seq datasets:
+- [Wu et al. breast cancer](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE176078)
+
 ## Methods for inferring TF activity
 - `notebook01_run_stan.ipynb`: infethe proposed method
 - `notebook02_run_ridge.ipynb`: the Ridge regression model
