@@ -22,7 +22,12 @@ def read_visium_sge(sample_id="V1_Human_Lymph_Node", min_cells=5, min_counts=500
     return adata
 
 
-def prepare_breast_wu(path, sample):
+'''
+path = 'data/Breast_Wu_raw/filtered_count_matrices/'
+for sample in ["1142243F", "1160920F", "CID4290", "CID4535", "CID4465", "CID44971"]:
+    adata = prepare_breast_wu(path, sample)
+'''
+def prepare_breast_wu(path, sample, opath='data/Breast_Wu/'):
     matrix_path = f'{path}/filtered_count_matrices/'
     for f in glob(matrix_path + sample + "_filtered_count_matrix/*.gz"):
         os.rename(f, f[0:-3])
@@ -35,7 +40,7 @@ def prepare_breast_wu(path, sample):
     adata.uns["spatial"] = dict()
     adata.uns["spatial"][sample] = dict()
     
-    spatial_path = '{}/spatial/{}_spatial/'.format(path, sample)
+    spatial_path = f'{path}/spatial/{sample}_spatial/'
     files = dict(
         tissue_positions_file = spatial_path + 'tissue_positions_list.csv',
         scalefactors_json_file = spatial_path + 'scalefactors_json.json',
@@ -58,7 +63,7 @@ def prepare_breast_wu(path, sample):
     adata.obsm['spatial'] = adata.obs[['pxl_row_in_fullres', 'pxl_col_in_fullres']].to_numpy()
     adata.obs.drop(columns=['barcode', 'pxl_row_in_fullres', 'pxl_col_in_fullres'], inplace=True)
     
-    metadata = pd.read_csv("{}/metadata/{}_metadata.csv".format(path, sample), index_col=0)
+    metadata = pd.read_csv("{path}/metadata/{sample}_metadata.csv", index_col=0)
     adata.obs["subtype"] = metadata["subtype"]
     adata.obs["pathology"] = metadata["Classification"]
     adata.obs["sample"] = sample
@@ -68,6 +73,11 @@ def prepare_breast_wu(path, sample):
     adata.obs["PR"] = adata.obs["ER"] # All ER+ samples are also PR+ in this dataset.
     adata.layers["raw_counts"]=adata.X
     adata.obs_names = sample+"_"+adata.obs_names
+    
+    opath = Path(opath)
+    if not os.path.exists(opath):
+        os.makedirs(opath)
+    adata.write_h5ad(opath / f"{sample}.h5ad")
     return adata
 
 
