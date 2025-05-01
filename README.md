@@ -8,6 +8,12 @@ STAN (Spatially informed Transcription factor Activity Network) is a linear mixe
 - Input data: an `AnnData` for 10x-Genomics-formatted visum dataset, which contains the following metadata: `.uns["spatial"]` for spaceranger output files with `library_id` as key, `.uns['spatial'][library_id]['images']` for images ('hires' and 'lowres'), `.uns['spatial'][library_id]['scalefactors']` for scale factors of the spots, and `.obsm['spatial']` for spatial spot coordinates.
 - Sampel notebook: `tutorial.ipynb`
 
+## Acquiring Datasets
+Acquiring datasets by running `datasets.ipynb`
+- Visium Spatial Gene Expression datasets: [10x Genomics lymph node](https://www.10xgenomics.com/datasets/human-lymph-node-1-standard-1-1-0), [10x Genomics glioblastoma](https://www.10xgenomics.com/datasets/human-glioblastoma-whole-transcriptome-analysis-1-standard-1-2-0), [Ravi et al. glioblastoma](https://doi.org/10.5061/dryad.h70rxwdmj), [Wu et al. breast cancer](https://zenodo.org/record/4739739)
+- Visium CytAssist Spatial Gene and Protein Expression datasets: [10x Genomics Tonsil](https://www.10xgenomics.com/datasets/gene-protein-expression-library-of-human-tonsil-cytassist-ffpe-2-standard), [10x Genomics Tonsil (with addons)](https://www.10xgenomics.com/datasets/visium-cytassist-gene-and-protein-expression-library-of-human-tonsil-with-add-on-antibodies-h-e-6-5-mm-ffpe-2-standard), [10x Genomics breast cancer](https://www.10xgenomics.com/datasets/fresh-frozen-visium-on-cytassist-human-breast-cancer-probe-based-whole-transcriptome-profiling-2-standard)
+- scRNA-seq datasets: [Wu et al. breast cancer](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE176078)
+
 ## Methods for Inferring TF Activity
 - `notebook01_run_stan.ipynb`: the proposed method, including reading datasets and inference pipeline
 - `notebook02_run_ridge.ipynb`: the Ridge regression model
@@ -22,13 +28,6 @@ STAN (Spatially informed Transcription factor Activity Network) is a linear mixe
 - Identifying similar/different TFs associated with pathological regions in breast cancer: `analysis_breast_part1.ipynb` (a series notebooks)
 - Linking ligands and receptors to TFs in glioblastoma: `analysis_glioblastoma.ipynb`
 - Linking surface proteins to TFs in CytAssist datasets: `analysis_cytassist.ipynb`
-
-## Acquiring Datasets
-- Visium Spatial Gene Expression datasets: [10x Genomics lymph node](https://www.10xgenomics.com/datasets/human-lymph-node-1-standard-1-1-0), [10x Genomics glioblastoma](https://www.10xgenomics.com/datasets/human-glioblastoma-whole-transcriptome-analysis-1-standard-1-2-0), [Ravi et al. glioblastoma](https://doi.org/10.5061/dryad.h70rxwdmj), [Wu et al. breast cancer](https://zenodo.org/record/4739739)
-- Visium CytAssist Spatial Gene and Protein Expression datasets: [10x Genomics Tonsil](https://www.10xgenomics.com/datasets/gene-protein-expression-library-of-human-tonsil-cytassist-ffpe-2-standard), [10x Genomics Tonsil (with addons)](https://www.10xgenomics.com/datasets/visium-cytassist-gene-and-protein-expression-library-of-human-tonsil-with-add-on-antibodies-h-e-6-5-mm-ffpe-2-standard), [10x Genomics breast cancer](https://www.10xgenomics.com/datasets/fresh-frozen-visium-on-cytassist-human-breast-cancer-probe-based-whole-transcriptome-profiling-2-standard)
-- scRNA-seq datasets: [Wu et al. breast cancer](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE176078)
-
-For 10x datasets, download the `library_id_spatial.tar.gz` and `library_id_filtered_feature_bc_matrix.h5` files. Unzip `spatial.tar.gz`, and read files using `stan.read_visium_sge()` or `stan.read_cytassist()`. For the breast cancer datasets (Wu et al.), use `stan.prepare_breast_wu()` to process the raw data for the first time use, and use `stan.read_breast_wu()` to read the saved `h5ad` files.
 
 ## Supporting Resources
 A gene set resource comprising TF–target gene priors from [hTFtarget](https://guolab.wchscu.cn/hTFtarget/#!/) will be obtained, and TFs identified in the Human Transcription Factor database [(humantfs)](https://www.cell.com/cell/fulltext/S0092-8674(18)30106-5) will be retained to generate the TF–target gene prior matrix. 
