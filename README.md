@@ -4,9 +4,9 @@ STAN (Spatially informed Transcription factor Activity Network) is a linear mixe
 
 ![image](https://github.com/osmanbeyoglulab/Tutorials-on-ISMB-2024/blob/main/hands-on_tutorial/session-1/resources_stan/stan.png?raw=true)
 
-## Quick Tutorial
+## Quick Example
 - Input data: an `AnnData` for 10x-Genomics-formatted visum dataset, which contains the following metadata: `.uns["spatial"]` for spaceranger output files with `library_id` as key, `.uns['spatial'][library_id]['images']` for images ('hires' and 'lowres'), `.uns['spatial'][library_id]['scalefactors']` for scale factors of the spots, and `.obsm['spatial']` for spatial spot coordinates.
-- Sampel notebook: `tutorial.ipynb`
+- Sampel notebook: `quick_exmaple.ipynb`
 
 ## Acquiring Datasets
 All datasets used in this study can be downloaded via running `datasets.ipynb`.
@@ -24,10 +24,6 @@ All datasets used in this study can be downloaded via running `datasets.ipynb`.
 - Identifying similar/different TFs associated with pathological regions in breast cancer: `analysis_breast_part1.ipynb` (a series notebooks)
 - Linking ligands and receptors to TFs in glioblastoma: `analysis_glioblastoma.ipynb`
 - Linking surface proteins to TFs in CytAssist datasets: `analysis_cytassist.ipynb`
-
-## Additional Analysis of STAN
-- `notebook04_run_cv.ipynb` and `notebook04_anaysis_cv.ipynb`: to analyze the impact of the parameters in the regression
-- `notebook05_run_image.ipynb` and `notebook05_analysis_image.ipynb`: to analyze the impact of including morphological features
 
 ## Supporting Resources
 A gene set resource comprising TF–target gene priors from [hTFtarget](https://guolab.wchscu.cn/hTFtarget/#!/) will be obtained, and TFs identified in the Human Transcription Factor database [(humantfs)](https://www.cell.com/cell/fulltext/S0092-8674(18)30106-5) will be retained to generate the TF–target gene prior matrix. 
