@@ -17,17 +17,17 @@ All datasets used in this study can be downloaded via running `datasets.ipynb`.
 ## Methods for Inferring TF Activity
 - `notebook01_run_stan.ipynb`: the proposed method, including reading datasets and inference pipeline
 - `notebook02_run_ridge.ipynb`: the Ridge regression model
-- `notebook03_run_decoupler.ipynb`: the decoupleR method
-
-## Analysis of STAN
-- `notebook04_run_cv.ipynb` and `notebook04_anaysis_cv.ipynb`: to analyze the impact of the parameters in the regression
-- `notebook05_run_image.ipynb` and `notebook05_analysis_image.ipynb`: to analyze the impact of including morphological features
+- `notebook03_run_decoupler.ipynb`: the decoupleR method (optional; need to follow the documentation of decoupleR for installation)
  
 ## Applications of STAN
 - Identifying germinal centers and cell-type-specific TFs in the human lymph node: `analysis_lymphnode.ipynb`
 - Identifying similar/different TFs associated with pathological regions in breast cancer: `analysis_breast_part1.ipynb` (a series notebooks)
 - Linking ligands and receptors to TFs in glioblastoma: `analysis_glioblastoma.ipynb`
 - Linking surface proteins to TFs in CytAssist datasets: `analysis_cytassist.ipynb`
+
+## Additional Analysis of STAN
+- `notebook04_run_cv.ipynb` and `notebook04_anaysis_cv.ipynb`: to analyze the impact of the parameters in the regression
+- `notebook05_run_image.ipynb` and `notebook05_analysis_image.ipynb`: to analyze the impact of including morphological features
 
 ## Supporting Resources
 A gene set resource comprising TF–target gene priors from [hTFtarget](https://guolab.wchscu.cn/hTFtarget/#!/) will be obtained, and TFs identified in the Human Transcription Factor database [(humantfs)](https://www.cell.com/cell/fulltext/S0092-8674(18)30106-5) will be retained to generate the TF–target gene prior matrix. 
